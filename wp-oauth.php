@@ -85,6 +85,11 @@ Class WPOA {
 		'wpoa_facebook_api_enabled' => 0,								// 0, 1
 		'wpoa_facebook_api_id' => '',									// any string
 		'wpoa_facebook_api_secret' => '',								// any string
+		
+		'wpoa_hms_api_enabled' => 1,									// 0, 1
+		'wpoa_hms_api_id' => 'f47cb5d6021a97e9ab9d',										// any string
+		'wpoa_hms_api_secret' => '9b7d41468fadfdac2af5878a64fd68ae349e50bb',									// any string
+		
 		'wpoa_linkedin_api_enabled' => 0,								// 0, 1
 		'wpoa_linkedin_api_id' => '',									// any string
 		'wpoa_linkedin_api_secret' => '',								// any string
@@ -687,6 +692,7 @@ Class WPOA {
 	function wpoa_login_buttons($icon_set, $button_prefix) {
 		// generate the atts once (cache them), so we can use it for all buttons without computing them each time:
 		$site_url = get_bloginfo('url');
+
 		$redirect_to = urlencode($_GET['redirect_to']);
 		if ($redirect_to) {$redirect_to = "&redirect_to=" . $redirect_to;}
 		// get shortcode atts that determine how we should build these buttons:
@@ -703,6 +709,7 @@ Class WPOA {
 		$html = "";
 		$html .= $this->wpoa_login_button("google", "Google", $atts);
 		$html .= $this->wpoa_login_button("facebook", "Facebook", $atts);
+		$html .= $this->wpoa_login_button("hms", "Harbourmaster", $atts);
 		$html .= $this->wpoa_login_button("linkedin", "LinkedIn", $atts);
 		$html .= $this->wpoa_login_button("github", "GitHub", $atts);
 		$html .= $this->wpoa_login_button("reddit", "Reddit", $atts);
