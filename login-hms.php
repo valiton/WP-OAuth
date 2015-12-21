@@ -13,19 +13,13 @@ define('REDIRECT_URI', rtrim(site_url(), '/') . '/');
 define('SCOPE', 'email'); // PROVIDER SPECIFIC: 'email' is the minimum scope required to get the user's id from Facebook
 
 
-define('URL_AUTH', "http://localhost:8080/v1/instyle/oauth2/authorize?");
-define('URL_TOKEN', "http://localhost:8080/v1/instyle/oauth2/token?");
-define('URL_USER', "http://localhost:8080/v1/instyle/me?");
+define('URL_AUTH', getenv('HMS_URL_AUTH'));
+define('URL_TOKEN', getenv('HMS_URL_TOKEN'));
+define('URL_USER', getenv('HMS_URL_USER'));
 
-
-
-/*
-
-define('URL_AUTH', "http://user.wired.dev:8000/oauth2/authorize?");
-define('URL_TOKEN', "http://user.wired.dev:8000/oauth2/token?");
-define('URL_USER', "http://user.wired.dev:8000/me?");
-*/
-
+// define('URL_AUTH', "http://<harbourmaster-usermanager>/oauth2/authorize?");
+// define('URL_TOKEN', "http://<harbourmaster-usermanager>/oauth2/token?");
+// define('URL_USER', "http://<harbourmaster-usermanager>/me?");
 
 
 # END OF DEFINE THE OAUTH PROVIDER AND SETTINGS TO USE #
@@ -52,18 +46,9 @@ elseif (isset($_GET['error_message'])) {
 }
 elseif (isset($_GET['code'])) {
 	// post-auth phase, verify the state:
-	
-// /* 	print */("---> im code");
-		
 	if ($_SESSION['WPOA']['STATE'] == $_GET['state']) {
-		
-// 		print("---> im state");
-		
 		// get an access token from the third party provider:
 		get_oauth_token($this);
-		
-// 		print("---> got oath token");
-		
 		// get the user's third-party identity and attempt to login/register a matching wordpress user account:
 		$oauth_identity = get_oauth_identity($this);
 		$this->wpoa_login_user($oauth_identity);
@@ -102,7 +87,6 @@ function get_oauth_code($wpoa) {
 }
 
 function get_oauth_token($wpoa) {
-// 	print("--> in get_oauth_token");
 	$params = array(
 		'grant_type' => 'authorization_code',
 		'client_id' => CLIENT_ID,
@@ -148,7 +132,7 @@ function get_oauth_token($wpoa) {
 // 	$expires_at = time() + $expires_in;
 	// handle the result:
 //  	echo "---> ", $access_token;
-	
+
 	if (!$access_token) {
 		// malformed access token result detected:
 		$wpoa->wpoa_end_login("Sorry, we couldn't log you in. Malformed access token result detected. Please notify the admin or try again later.");
@@ -205,7 +189,7 @@ function get_oauth_identity($wpoa) {
 	$oauth_identity['email'] = $result_obj["data"]["email"];
 	$oauth_identity['firstname'] = $result_obj["data"]["firstname"];
 	$oauth_identity['lastname'] = $result_obj["data"]["lastname"];
-	
+
 	if (!$oauth_identity['id']) {
 		$wpoa->wpoa_end_login("Sorry, we couldn't log you in. User identity was not found. Please notify the admin or try again later.");
 	}

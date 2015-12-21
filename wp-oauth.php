@@ -360,7 +360,9 @@ Class WPOA {
 			$this->wpoa_include_connector($provider);
 		}
 		elseif (get_query_var('code')) {
+// 			echo "got code!";
 			$provider = $_SESSION['WPOA']['PROVIDER'];
+// 			echo "provider --> " . $provider;
 			$this->wpoa_include_connector($provider);
 		}
 		elseif (get_query_var('error_description') || get_query_var('error_message')) {
@@ -692,7 +694,6 @@ Class WPOA {
 	function wpoa_login_buttons($icon_set, $button_prefix) {
 		// generate the atts once (cache them), so we can use it for all buttons without computing them each time:
 		$site_url = get_bloginfo('url');
-
 		$redirect_to = urlencode($_GET['redirect_to']);
 		if ($redirect_to) {$redirect_to = "&redirect_to=" . $redirect_to;}
 		// get shortcode atts that determine how we should build these buttons:
