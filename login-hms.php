@@ -102,7 +102,7 @@ function get_oauth_token($wpoa) {
 			curl_setopt($curl, CURLOPT_URL, $url);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_POST, 1);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $url_params);
 			// PROVIDER NORMALIZATION: Reddit requires sending a User-Agent header...
 			// PROVIDER NORMALIZATION: Reddit requires sending the client id/secret via http basic authentication
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, (get_option('wpoa_http_util_verify_ssl') == 1 ? 1 : 0));
